@@ -1,6 +1,6 @@
 """MIT License
 
-Copyright (c) 2019-2020 PythonistaGuild
+Copyright (c) 2019-2021 PythonistaGuild
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,158 +20,192 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-import aiohttp
+from __future__ import annotations
+
 import asyncio
 import logging
-import sys
-import traceback
-from typing import Any, Dict
+from typing import Any, Dict, TYPE_CHECKING, Tuple, Optional
 
-from .backoff import ExponentialBackoff
-from .events import *
-from .stats import Stats
+import aiohttp
+
+import wavelink
+from .utils import MISSING
+
+if TYPE_CHECKING:
+    from .pool import Node
+
+__all__ = ("Websocket",)
+
+logger: logging.Logger = logging.getLogger(__name__)
 
 
-__log__ = logging.getLogger(__name__)
+class Websocket:
+    def __init__(self, *, node: Node, session: aiohttp.ClientSession = MISSING):
+        self.node: Node = node
 
+        self.websocket: Optional[aiohttp.ClientWebSocketResponse] = None
+        if session is MISSING:
+            session = aiohttp.ClientSession()
+        self.session: aiohttp.ClientSession = session
+        self.listener: Optional[asyncio.Task] = None
 
-class WebSocket:
-
-    def __init__(self, **attrs):
-        self._node = attrs.get('node')
-        self.client = self._node._client
-        self.bot = self.client.bot
-        self.host = attrs.get('host')
-        self.port = attrs.get('port')
-        self.password = attrs.get('password')
-        self.shard_count = attrs.get('shard_count')
-        self.user_id = attrs.get('user_id')
-        self.secure = attrs.get('secure')
-        self._dumps = attrs.get('dumps')
-
-        self._websocket = None
-        self._last_exc = None
-        self._task = None
+        self.host: str = f'{"https://" if self.node._https else "http://"}{self.node.host}:{self.node.port}'
+        self.ws_host: str = f"ws://{self.node.host}:{self.node.port}"
 
     @property
-    def headers(self):
-        return {'Authorization': self.password,
-                'Num-Shards': str(self.shard_count),
-                'User-Id': str(self.user_id)}
+    def headers(self) -> Dict[str, Any]:
+        return {
+            "Authorization": self.node._password,
+            "User-Id": str(self.node.bot.user.id),
+            "Client-Name": "WaveLink",
+        }
 
-    @property
     def is_connected(self) -> bool:
-        return self._websocket is not None and not self._websocket.closed
+        return self.websocket is not None and not self.websocket.closed
 
-    async def _connect(self):
-        await self.bot.wait_until_ready()
+    async def connect(self) -> None:
+        if self.is_connected():
+            assert isinstance(self.websocket, aiohttp.ClientWebSocketResponse)
+            await self.websocket.close(
+                code=1006, message=b"WaveLink: Attempting reconnection."
+            )
 
         try:
-            if self.secure is True:
-                uri = f'wss://{self.host}:{self.port}'
-            else:
-                uri = f'ws://{self.host}:{self.port}'
-
-            if not self.is_connected:
-                self._websocket = await self._node.session.ws_connect(uri, headers=self.headers, heartbeat=self._node.heartbeat)
-
+            self.websocket = await self.session.ws_connect(
+                self.ws_host, headers=self.headers, heartbeat=self.node._heartbeat
+            )
         except Exception as error:
-            self._last_exc = error
-            self._node.available = False
-
-            if isinstance(error, aiohttp.WSServerHandshakeError) and error.status == 401:
-                print(f'\nAuthorization Failed for Node:: {self._node}\n', file=sys.stderr)
+            if (
+                isinstance(error, aiohttp.WSServerHandshakeError)
+                and error.status == 401
+            ):
+                logger.error(f"\nAuthorization Failed for Node: {self.node}\n")
             else:
-                __log__.error(f'WEBSOCKET | Connection Failure:: {error}')
-                traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
+                logger.error(f"Connection Failure: {error}")
+
             return
 
-        if not self._task:
-            self._task = self.bot.loop.create_task(self._listen())
+        if self.listener is None:
+            self.listener = asyncio.create_task(self.listen())
 
-        self._last_exc = None
-        self._closed = False
-        self._node.available = True
+        if self.is_connected():
+            self.dispatch("node_ready", self.node)
+            logger.debug(f"Connection established...{self.node.__repr__()}")
 
-        if self.is_connected:
-            await self.client._dispatch_listeners('on_node_ready', self._node)
-            __log__.debug('WEBSOCKET | Connection established...%s', self._node.__repr__())
-
-    async def _listen(self):
-        backoff = ExponentialBackoff(base=7)
+    async def listen(self) -> None:
+        backoff = wavelink.Backoff(base=1, maximum_time=60, maximum_tries=None)
 
         while True:
-            msg = await self._websocket.receive()
+            assert isinstance(self.websocket, aiohttp.ClientWebSocketResponse)
+            msg = await self.websocket.receive()
 
             if msg.type is aiohttp.WSMsgType.CLOSED:
-                __log__.debug(f'WEBSOCKET | Close data: {msg.extra}')
+                logger.debug(f"Websocket Closed: {msg.extra}")
 
-                self._closed = True
-                retry = backoff.delay()
+                retry = backoff.calculate()
 
-                __log__.warning(f'\nWEBSOCKET | Connection closed:: Retrying connection in <{retry}> seconds\n')
+                logger.warning(f"\nRetrying connection in <{retry}> seconds...\n")
 
                 await asyncio.sleep(retry)
-                if not self.is_connected:
-                    self.bot.loop.create_task(self._connect())
-            else:
-                __log__.debug(f'WEBSOCKET | Received Payload:: <{msg.data}>')
-                self.bot.loop.create_task(self.process_data(msg.json()))
 
-    async def process_data(self, data: Dict[str, Any]):
-        op = data.get('op', None)
+                if not self.is_connected():
+                    await self.connect()
+            else:
+                logger.debug(f"Received Payload:: <{msg.data}>")
+
+                if msg.data == 1011:
+                    # Lavalink encountered an internal error which can not be fixed...
+                    # Consider updating Lavalink...
+                    logger.error('Internal Lavalink Error encountered. Terminating WaveLink without retries.'
+                                 'Consider updating your Lavalink Server.')
+
+                    self.listener.cancel()
+                    return
+
+                asyncio.create_task(self.process_data(msg.json()))
+
+    async def process_data(self, data: Dict[str, Any]) -> None:
+        op = data.get("op", None)
         if not op:
             return
 
-        if op == 'stats':
-            self._node.stats = Stats(self._node, data)
+        if op == "stats":
+            self.node.stats = wavelink.Stats(self.node, data)
+            return
+
+        try:
+            player = self.node.get_player(self.node.bot.get_guild(
+                int(data["guildId"])))  # type: ignore
+        except KeyError:
+            return
+
+        if player is None:
+            return
+
         if op == 'event':
+            event, payload = await self._get_event_payload(data['type'], data)
+            logger.debug(f'op: event:: {data}')
+
+            self.dispatch(event, player, **payload)
+
+        elif op == "playerUpdate":
+            logger.debug(f"op: playerUpdate:: {data}")
             try:
-                data['player'] = self._node.players[int(data['guildId'])]
-            except KeyError:
-                return
-
-            listener, payload = self._get_event_payload(data['type'], data)
-
-            __log__.debug(f'WEBSOCKET | op: event:: {data}')
-
-            # Dispatch node event/player hooks
-            try:
-                await self._node.on_event(payload)
-            except Exception as e:
-                traceback.print_exception(type(e), e, e.__traceback__, file=sys.stderr)
-
-            # Dispatch listeners
-            await self.client._dispatch_listeners(listener, self._node, payload)
-
-        elif op == 'playerUpdate':
-            __log__.debug(f'WEBSOCKET | op: playerUpdate:: {data}')
-            try:
-                await self._node.players[int(data['guildId'])].update_state(data)
+                await player.update_state(data)
             except KeyError:
                 pass
 
-    def _get_event_payload(self, name: str, data):
-        if name == 'TrackEndEvent':
-            return 'on_track_end', TrackEnd(data)
-        elif name == 'TrackStartEvent':
-            return 'on_track_start', TrackStart(data)
-        elif name == 'TrackExceptionEvent':
-            return 'on_track_exception', TrackException(data)
-        elif name == 'TrackStuckEvent':
-            return 'on_track_stuck', TrackStuck(data)
-        elif name == 'WebSocketClosedEvent':
-            return 'on_websocket_closed', WebsocketClosed(data)
+    async def _get_event_payload(
+        self, name: str, data: Dict[str, Any]
+    ) -> Tuple[str, Dict[str, Any]]:
+        event = "event"
+        payload = {}
 
-    async def _send(self, **data):
-        if self.is_connected:
-            __log__.debug(f'WEBSOCKET | Sending Payload:: {data}')
-            data_str = self._dumps(data)
+        if name == "WebSocketClosedEvent":
+            event = "websocket_closed"
+            payload["reason"] = data.get("reason")
+            payload["code"] = data.get("code")
+
+        if name.startswith("Track"):
+            base64_ = data.get('track')
+            track = await self.node.build_track(cls=wavelink.Track, identifier=base64_)
+
+            payload["track"] = track
+
+            if name == "TrackEndEvent":
+                event = "track_end"
+                payload["reason"] = data.get("reason")
+
+            elif name == "TrackStartEvent":
+                event = "track_start"
+
+            elif name == "TrackExceptionEvent":
+                event = "track_exception"
+                payload["error"] = data.get("error")
+
+            elif name == "TrackStuckEvent":
+                event = "track_stuck"
+                threshold = data.get("thresholdMs")
+                if isinstance(threshold, str):
+                    payload["threshold"] = int(threshold)
+
+        return event, payload
+
+    def dispatch(self, event, *args: Any, **kwargs: Any) -> None:
+        self.node.bot.dispatch(f"wavelink_{event}", *args, **kwargs)
+
+    async def send(self, **data: Any) -> None:
+        if self.is_connected():
+            assert isinstance(self.websocket, aiohttp.ClientWebSocketResponse)
+            logger.debug(f"Sending Payload:: {data}")
+
+            data_str = self.node._dumps(data)
             if isinstance(data_str, bytes):
                 # Some JSON libraries serialize to bytes
                 # Yet Lavalink does not support binary websockets
                 # So we need to decode. In the future, maybe
                 # self._websocket.send_bytes could be used
                 # if Lavalink ever implements it
-                data_str = data_str.decode('utf-8')
-            await self._websocket.send_str(data_str)
+                data_str = data_str.decode("utf-8")
+
+            await self.websocket.send_str(data_str)

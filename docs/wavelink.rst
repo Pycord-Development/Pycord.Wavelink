@@ -1,178 +1,168 @@
-Wavelink
-================
-Welcome to WaveLink's Documentation. WaveLink is a robust and powerful Lavalink wrapper for discord.py.
-
-Support
----------------------------
-For support using WaveLink, please join the official `support server
-<http://discord.gg/RAKc3HF>`_ on `Discord <https://discordapp.com/>`_.
-
-Installation
----------------------------
-The following commands are currently the valid ways of installing WaveLink.
-
-**WaveLink requires Python 3.7+**
-
-**Windows**
-
-.. code:: sh
-
-    py -3.7 -m pip install Wavelink
-
-**Linux**
-
-.. code:: sh
-
-    python3.7 -m pip install Wavelink
-
-Getting Started
-----------------------------
-
-A quick and easy bot example:
-
-.. code:: py
-
-    import discord
-    import wavelink
-    from discord.ext import commands
+.. currentmodule:: wavelink
 
 
-    class Bot(commands.Bot):
+Event Reference
+---------------
 
-        def __init__(self):
-            super(Bot, self).__init__(command_prefix=['audio ', 'wave ','aw '])
+WaveLink Events are events dispatched when certain events happen in Lavalink and Wavelink.
+All events must be coroutines.
 
-            self.add_cog(Music(self))
+Events are dispatched via discord.py and as such can be used with listener syntax.
 
-        async def on_ready(self):
-            print(f'Logged in as {self.user.name} | {self.user.id}')
+**For example:**
 
+An event listener in a cog...
 
-    class Music(commands.Cog):
+.. code-block:: python3
 
-        def __init__(self, bot):
-            self.bot = bot
-
-            if not hasattr(bot, 'wavelink'):
-                self.bot.wavelink = wavelink.Client(bot=self.bot)
-
-            self.bot.loop.create_task(self.start_nodes())
-
-        async def start_nodes(self):
-            await self.bot.wait_until_ready()
-
-            # Initiate our nodes. For this example we will use one server.
-            # Region should be a discord.py guild.region e.g sydney or us_central (Though this is not technically required)
-            await self.bot.wavelink.initiate_node(host='0.0.0.0',
-                                                  port=2333,
-                                                  rest_uri='http://0.0.0.0:2333',
-                                                  password='youshallnotpass',
-                                                  identifier='TEST',
-                                                  region='us_central')
-
-        @commands.command(name='connect')
-        async def connect_(self, ctx, *, channel: discord.VoiceChannel=None):
-            if not channel:
-                try:
-                    channel = ctx.author.voice.channel
-                except AttributeError:
-                    raise discord.DiscordException('No channel to join. Please either specify a valid channel or join one.')
-
-            player = self.bot.wavelink.get_player(ctx.guild.id)
-            await ctx.send(f'Connecting to **`{channel.name}`**')
-            await player.connect(channel.id)
-
-        @commands.command()
-        async def play(self, ctx, *, query: str):
-            tracks = await self.bot.wavelink.get_tracks(f'ytsearch:{query}')
-
-            if not tracks:
-                return await ctx.send('Could not find any songs with that query.')
-
-            player = self.bot.wavelink.get_player(ctx.guild.id)
-            if not player.is_connected:
-                await ctx.invoke(self.connect_)
-
-            await ctx.send(f'Added {str(tracks[0])} to the queue.')
-            await player.play(tracks[0])
+    @commands.Cog.listener()
+    async def on_wavelink_node_ready(node: Node):
+        print(f"Node {node.id} is ready!")
 
 
-    bot = Bot()
-    bot.run('TOKEN')
+.. function:: on_wavelink_node_ready(node: Node)
 
-Client
-----------------------------
+    Called when the Node you are connecting to has initialised and successfully connected to Lavalink.
 
-.. autoclass:: wavelink.client.Client
+.. function:: on_wavelink_websocket_closed(player: Player, reason, code)
+
+    Called when the Node websocket has been closed by Lavalink.
+
+.. function:: on_wavelink_track_start(player: Player, track: Track)
+
+    Called when a track starts playing.
+
+.. function:: on_wavelink_track_end(player: player, track: Track, reason)
+
+    Called when the current track has finished playing.
+
+.. function:: on_wavelink_track_exception(player: Player, track: Track, error)
+
+    Called when a TrackException occurs in Lavalink.
+
+.. function:: on_wavelink_track_stuck(player: Player, track: Track, threshold)
+
+    Called when a TrackStuck occurs in Lavalink.
+
+
+Abstract Base Classes
+---------------------
+
+.. autoclass:: wavelink.abc.Playable
     :members:
 
+.. autoclass:: wavelink.abc.Searchable
+    :members:
+
+.. autoclass:: wavelink.abc.Playlist
+    :members:
+
+NodePool
+--------
+.. attributetable:: NodePool
+
+.. autoclass:: NodePool
+    :members:
 
 Node
-----------------------------
+----
 
-.. autoclass:: wavelink.node.Node
+.. attributetable:: Node
+
+.. autoclass:: Node
     :members:
 
-
-Player
-----------------------------
-.. autoclass:: wavelink.player.Player
-    :members:
-
+Tracks
+------
 
 Track
-----------------------------
-.. autoclass:: wavelink.player.Track
+~~~~~
+
+.. attributetable:: Track
+
+.. autoclass:: Track
     :members:
 
-.. autoclass:: wavelink.player.TrackPlaylist
+SearchableTrack
+~~~~~~~~~~~~~~~
+
+.. attributetable:: SearchableTrack
+
+.. autoclass:: SearchableTrack
     :members:
 
+YouTubeTrack
+~~~~~~~~~~~~
 
-Equalizer
-----------------------------
-.. autoclass:: wavelink.eqs.Equalizer
+.. attributetable:: YouTubeTrack
+
+.. autoclass:: YouTubeTrack
     :members:
 
+YouTubeMusicTrack
+~~~~~~~~~~~~~~~~~
 
-Event Payloads
-----------------------------
+.. attributetable:: YouTubeMusicTrack
 
-.. autoclass:: wavelink.events.TrackStart
+.. autoclass:: YouTubeMusicTrack
     :members:
 
-.. autoclass:: wavelink.events.TrackEnd
+SoundCloudTrack
+~~~~~~~~~~~~~~~
+
+.. attributetable:: SoundCloudTrack
+
+.. autoclass:: SoundCloudTrack
     :members:
 
-.. autoclass:: wavelink.events.TrackException
+YouTubePlaylist
+~~~~~~~~~~~~~~~
+
+.. attributetable:: YouTubePlaylist
+
+.. autoclass:: YouTubePlaylist
     :members:
 
-.. autoclass:: wavelink.events.TrackStuck
+PartialTrack
+~~~~~~~~~~~~
+
+.. attributetable:: PartialTrack
+
+.. autoclass:: PartialTrack
+
+Player
+------
+
+.. attributetable:: Player
+
+.. autoclass:: Player
     :members:
 
+Queues
+------
 
-WavelinkMixin
------------------------
+.. attributetable:: Queue
 
-.. warning::
-    Listeners must be used with a `wavelink.WavelinkMixin.listener()` decorator to work.
-
-.. warning::
-    Listeners must be coroutines.
-
-.. autoclass:: wavelink.meta.WavelinkMixin
+.. autoclass:: Queue
     :members:
 
+.. attributetable:: WaitQueue
 
-Errors
------------------------
+.. autoclass:: WaitQueue
+    :members:
 
-.. autoexception:: wavelink.errors.WavelinkException
+Exceptions
+----------
 
-.. autoexception:: wavelink.errors.NodeOccupied
-
-.. autoexception:: wavelink.errors.InvalidIDProvided
-
-.. autoexception:: wavelink.errors.ZeroConnectedNodes
-
-.. autoexception:: wavelink.errors.AuthorizationFailure
+.. py:exception:: WavelinkError
+.. py:exception:: AuthorizationFailure
+.. py:exception:: LavalinkException
+.. py:exception:: LoadTrackError
+.. py:exception:: BuildTrackError
+.. py:exception:: NodeOccupied
+.. py:exception:: InvalidIDProvided
+.. py:exception:: ZeroConnectedNodes
+.. py:exception:: NoMatchingNode
+.. py:exception:: QueueException
+.. py:exception:: QueueFull
+.. py:exception:: QueueEmpty

@@ -1,1 +1,6 @@
-git+https://github.com/Rapptz/discord.py
+sphinx==4.0.2
+sphinxcontrib-napoleon
+sphinxcontrib-asyncio
+sphinxcontrib-websupport
+Pygments
+karma_sphinx_theme

@@ -1,6 +1,6 @@
 """MIT License
 
-Copyright (c) 2019-2020 PythonistaGuild
+Copyright (c) 2019-2021 PythonistaGuild
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,26 +21,83 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-
-class WavelinkException(Exception):
-    """Base Wavelink Exception."""
-
-
-class NodeOccupied(WavelinkException):
-    """Exception raised when node identifiers conflict."""
+from .enums import ErrorSeverity
+from discord.enums import try_enum
 
 
-class InvalidIDProvided(WavelinkException):
-    """Exception raised when an invalid ID is passed somewhere in Wavelink."""
+__all__ = (
+    "WavelinkError",
+    "AuthorizationFailure",
+    "LavalinkException",
+    "LoadTrackError",
+    "BuildTrackError",
+    "NodeOccupied",
+    "InvalidIDProvided",
+    "ZeroConnectedNodes",
+    "NoMatchingNode",
+    "QueueException",
+    "QueueFull",
+    "QueueEmpty",
+)
 
 
-class ZeroConnectedNodes(WavelinkException):
-    """Exception raised when an operation is attempted with nodes, when there are None connected."""
+class WavelinkError(Exception):
+    """Base WaveLink Exception"""
 
 
-class AuthorizationFailure(WavelinkException):
+class AuthorizationFailure(WavelinkError):
     """Exception raised when an invalid password is provided toa node."""
 
 
-class BuildTrackError(WavelinkException):
+class LavalinkException(WavelinkError):
+    """Exception raised when an error occurs talking to Lavalink."""
+
+
+class LoadTrackError(LavalinkException):
+    """Exception raised when an error occurred when loading a track."""
+
+    def __init__(self, data):
+        exception = data["exception"]
+        self.severity: ErrorSeverity = try_enum(ErrorSeverity, exception["severity"])
+        super().__init__(exception["message"])
+
+
+class BuildTrackError(LavalinkException):
     """Exception raised when a track is failed to be decoded and re-built."""
+
+    def __init__(self, data):
+        super().__init__(data["error"])
+
+
+class NodeOccupied(WavelinkError):
+    """Exception raised when node identifiers conflict."""
+
+
+class InvalidIDProvided(WavelinkError):
+    """Exception raised when an invalid ID is passed somewhere in Wavelink."""
+
+
+class ZeroConnectedNodes(WavelinkError):
+    """Exception raised when an operation is attempted with nodes, when there are None connected."""
+
+
+class NoMatchingNode(WavelinkError):
+    """Exception raised when a Node is attempted to be retrieved with a incorrect identifier."""
+
+
+class QueueException(WavelinkError):
+    """Base WaveLink Queue exception."""
+
+    pass
+
+
+class QueueFull(QueueException):
+    """Exception raised when attempting to add to a full Queue."""
+
+    pass
+
+
+class QueueEmpty(QueueException):
+    """Exception raised when attempting to retrieve from an empty Queue."""
+
+    pass

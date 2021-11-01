@@ -1,25 +1,36 @@
-name: Publish to PyPI
+name: Publish to PyPi (Pre-Release)
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - "1.0"
 
 jobs:
-  deploy:
+  build:
+
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
-
+        python-version: '3.9'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install setuptools wheel twine
+        pip install requests setuptools wheel twine
+    - name: Get Latest Pre-Release
+      working-directory: .github/workflows/
+      run: |
+        final=$(python get_revision.py)
 
+        echo "WAVELINK_VERSION=$final" >> $GITHUB_ENV
+    - name: Find and Replace
+      uses: jacobtomlinson/gha-find-replace@master
+      with:
+        find: "{{__VERSION__}}"
+        replace: ${{ env.WAVELINK_VERSION }}
     - name: Build and publish
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
