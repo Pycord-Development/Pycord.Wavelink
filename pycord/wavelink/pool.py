@@ -382,7 +382,7 @@ class NodePool:
             The heartbeat in seconds for the node. Defaults to 30 seconds.
         region: Optional[:class:`discord.VoiceRegion`]
             The pycord VoiceRegion to assign to the node. This is useful for node region balancing.
-        spotify_client: Optional[:class:`wavelink.ext.spotify.SpotifyClient`]
+        spotify_client: Optional[:class:`pycord.wavelink.ext.spotify.SpotifyClient`]
             An optional SpotifyClient with credentials to use when searching for spotify tracks.
         identifier: :class:`str`
             The unique identifier for this Node. By default this will be generated for you.
