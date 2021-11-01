@@ -11,11 +11,10 @@
 
 Wavelink is robust and powerful Lavalink wrapper for `Pycord <https://github.com/Pycord-Development/pycord>`_!
 Wavelink features a fully asynchronous API that's intuitive and easy to use.
-mentation <https://wavelink.readthedocs.io/en/1.0/wavelink.html>`_.
 
 Support
 ---------------------------
-For support using WaveLink, please join the official `support server
+For support using Pycord.WaveLink, please join the official `support server
 <https://discord.gg/pycord>`_ on `Discord <https://discordapp.com/>`_.
 
 |Discord|
@@ -44,7 +43,7 @@ A quick and easy bot example:
 
 .. code:: py
     
-    import wavelink
+    import pycord.wavelink
     from discord.ext import commands
     class Bot(commands.Bot):
         def __init__(self):

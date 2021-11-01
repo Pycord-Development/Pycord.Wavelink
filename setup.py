@@ -40,7 +40,7 @@ with open("README.rst") as f:
 setup(
     name="wavelink",
     author="Pycord Development",
-    url="https://github.com/Pycord-Development/Pycord-Wavelink",
+    url="https://github.com/Pycord-Development/Pycord.Wavelink",
     version=version,
     packages=["pycord.wavelink", "pycord.wavelink.ext.spotify", "pycord.wavelink.types"],
     license="MIT",
