@@ -71,7 +71,7 @@ def decode_url(url: str) -> Optional[dict]:
 
     .. code:: python3
 
-        from wavelink.ext import spotify
+        from pycord.wavelink.ext import spotify
 
         ...
 
@@ -147,7 +147,7 @@ class SpotifyAsyncIterator:
         if self._partial:
             track = PartialTrack(query=f'{track["name"]} - {track["artists"][0]["name"]}')
         else:
-            track = (await wavelink.YouTubeTrack.search(query=f'{track["name"]} -'
+            track = (await pycord.wavelink.YouTubeTrack.search(query=f'{track["name"]} -'
                                                               f' {track["artists"][0]["name"]}'))[0]
 
         self._count += 1
@@ -232,11 +232,11 @@ class SpotifyClient:
             data = await resp.json()
 
             if data['type'] == 'track':
-                return await wavelink.YouTubeTrack.search(f'{data["name"]} - {data["artists"][0]["name"]}')
+                return await pycord.wavelink.YouTubeTrack.search(f'{data["name"]} - {data["artists"][0]["name"]}')
 
             elif data['type'] == 'album' and iterator is False:
                 tracks = data['tracks']['items']
-                return [(await wavelink.YouTubeTrack.search(f'{t["name"]} - {t["artists"][0]["name"]}'))[0]
+                return [(await pycord.wavelink.YouTubeTrack.search(f'{t["name"]} - {t["artists"][0]["name"]}'))[0]
                         for t in tracks]
 
             elif data['type'] == 'playlist' and iterator is False:
@@ -245,7 +245,7 @@ class SpotifyClient:
 
                 for track in tracks:
                     t = track['track']
-                    ret.append((await wavelink.YouTubeTrack.search(f'{t["name"]} - {t["artists"][0]["name"]}'))[0])
+                    ret.append((await pycord.wavelink.YouTubeTrack.search(f'{t["name"]} - {t["artists"][0]["name"]}'))[0])
 
                 return ret
 
