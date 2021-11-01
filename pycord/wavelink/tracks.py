@@ -168,7 +168,7 @@ class SearchableTrack(Track, Searchable):
             The song to search for.
         spotify_type: Optional[:class:`spotify.SpotifySearchType`]
             An optional enum value to use when searching with Spotify.
-        node: Optional[:class:`wavelink.Node`]
+        node: Optional[:class:`pycord.wavelink.Node`]
             An optional Node to use to make the search with.
         return_first: Optional[bool]
             An optional bool which when set to True will return only the first track found. Defaults to False.
@@ -268,7 +268,7 @@ class PartialTrack(Searchable, Playable):
     ----------
     query: str
         The query to search for at playtime.
-    node: Optional[:class:`wavelink.Node`]
+    node: Optional[:class:`pycord.wavelink.Node`]
         An optional node to use when searching. Defaults to the best node.
     cls: Optional[:class:`SearchableTrack`]
         An optional Non-Partial Track object to use when searching.
