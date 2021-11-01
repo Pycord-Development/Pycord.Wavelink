@@ -1,10 +1,9 @@
-.. image:: logo.png?raw=true
-    :align: center
+Pycord.Wavelink
+==========
 
 .. image:: https://img.shields.io/badge/Python-3.7%20%7C%203.8%20%7C%203.9-blue.svg
     :target: https://www.python.org
     :align: center
-
 .. image:: https://img.shields.io/github/license/Pycord-Development/Pycord-Wavelink.svg
     :target: LICENSE
     :align: center
