@@ -216,7 +216,7 @@ class Player(discord.VoiceProtocol):
 
         Returns
         -------
-        :class:`wavelink.abc.Playable`
+        :class:`pycord.wavelink.abc.Playable`
             The track that is now playing.
         """
         if replace or not self.is_playing():
