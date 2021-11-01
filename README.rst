@@ -4,6 +4,9 @@ Pycord.Wavelink
 .. image:: https://img.shields.io/badge/Python-3.7%20%7C%203.8%20%7C%203.9-blue.svg
     :target: https://www.python.org
     :align: center
+.. image:: https://img.shields.io/pypi/v/pycord.wavelink.svg
+    :target: https://pypi.org/project/pycord.wavelink/
+    :align: center
 
 Wavelink is robust and powerful Lavalink wrapper for `Pycord <https://github.com/Pycord-Development/pycord>`_!
 Wavelink features a fully asynchronous API that's intuitive and easy to use.
