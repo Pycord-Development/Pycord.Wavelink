@@ -21,10 +21,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-__title__ = "WaveLink"
-__author__ = "PythonistaGuild, EvieePy"
+__title__ = "Pycord.WaveLink"
+__author__ = "Pycord Development"
 __license__ = "MIT"
-__copyright__ = "Copyright 2019-2021 (c) Pythonista, EvieePy"
+__copyright__ = "Copyright 2019-2021 (c) Pythonista, EvieePy | Copyright 2021-present (c) Pycord Development"
 __version__ = "{{__VERSION__}}"
 
 
