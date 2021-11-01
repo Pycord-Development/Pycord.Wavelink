@@ -4,6 +4,7 @@
 The MIT License (MIT)
 
 Copyright (c) 2019-2021 PythonistaGuild
+Copyright (c) 2021-present Pycord Development
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
@@ -27,15 +28,8 @@ DEALINGS IN THE SOFTWARE.
 import os
 from setuptools import setup
 
-
-on_rtd = os.getenv("READTHEDOCS") == "True"
-
 with open("requirements.txt") as f:
     requirements = f.read().splitlines()
-
-if on_rtd:
-    with open("docs/requirements_rtd.txt") as f:
-        requirements.extend(f.read().splitlines())
 
 version = "{{__VERSION__}}"
 
@@ -45,12 +39,12 @@ with open("README.rst") as f:
 
 setup(
     name="wavelink",
-    author="PythonistaGuild, EvieePy",
-    url="https://github.com/PythonistaGuild/Wavelink",
+    author="Pycord Development",
+    url="https://github.com/Pycord-Development/Pycord-Wavelink",
     version=version,
-    packages=["wavelink", "wavelink.ext.spotify", "wavelink.types"],
+    packages=["pycord.wavelink", "pycord.wavelink.ext.spotify", "pycord.wavelink.types"],
     license="MIT",
-    description="A robust and powerful Lavalink wrapper for discord.py.",
+    description="A robust and powerful Lavalink wrapper for pycord.",
     long_description=readme,
     include_package_data=True,
     install_requires=requirements,
