@@ -60,7 +60,7 @@ class Player(discord.VoiceProtocol):
             @commands.command()
             async def connect(self, channel: discord.VoiceChannel):
 
-                voice_client = await channel.connect(cls=wavelink.Player)
+                voice_client = await channel.connect(cls=pycord.wavelink.Player)
 
 
     .. warning::
