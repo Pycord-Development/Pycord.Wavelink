@@ -13,5 +13,4 @@ def getrev() -> str:
     return final
 
 
-#print(getrev())
-print("1.0.0b32")
+print(getrev())
