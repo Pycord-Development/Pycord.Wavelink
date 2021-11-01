@@ -38,7 +38,7 @@ with open("README.rst") as f:
     readme = f.read()
 
 setup(
-    name="wavelink",
+    name="pycord.wavelink",
     author="Pycord Development",
     url="https://github.com/Pycord-Development/Pycord.Wavelink",
     version=version,
