@@ -2,7 +2,7 @@ import requests
 
 
 def getrev() -> str:
-    resp = requests.get("https://pypi.org/pypi/wavelink/json")
+    resp = requests.get("https://pypi.org/pypi/pycord.wavelink/json")
     data = sorted(resp.json()["releases"])
 
     first = max(data).split('b')[0]
@@ -13,4 +13,5 @@ def getrev() -> str:
     return final
 
 
-print(getrev())
+#print(getrev())
+print("1.0.0b32")
