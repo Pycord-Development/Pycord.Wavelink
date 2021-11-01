@@ -94,7 +94,7 @@ class Websocket:
             logger.debug(f"Connection established...{self.node.__repr__()}")
 
     async def listen(self) -> None:
-        backoff = wavelink.Backoff(base=1, maximum_time=60, maximum_tries=None)
+        backoff = pycord.wavelink.Backoff(base=1, maximum_time=60, maximum_tries=None)
 
         while True:
             assert isinstance(self.websocket, aiohttp.ClientWebSocketResponse)
@@ -131,7 +131,7 @@ class Websocket:
             return
 
         if op == "stats":
-            self.node.stats = wavelink.Stats(self.node, data)
+            self.node.stats = pycord.wavelink.Stats(self.node, data)
             return
 
         try:
@@ -169,7 +169,7 @@ class Websocket:
 
         if name.startswith("Track"):
             base64_ = data.get('track')
-            track = await self.node.build_track(cls=wavelink.Track, identifier=base64_)
+            track = await self.node.build_track(cls=pycord.wavelink.Track, identifier=base64_)
 
             payload["track"] = track
 
