@@ -1,5 +1,5 @@
 Pycord.Wavelink
-==========
+===============
 
 .. image:: https://img.shields.io/badge/Python-3.7%20%7C%203.8%20%7C%203.9-blue.svg
     :target: https://www.python.org
@@ -27,11 +27,15 @@ The following commands are currently the valid ways of installing WaveLink.
 **Windows**
 
 .. code:: sh
+
     py -3.9 -m pip install pycord.wavelink --pre
+
 **Linux**
 
 .. code:: sh
+
     python3.9 -m pip install pycord.wavelink --pre
+
 Getting Started
 ----------------------------
 
