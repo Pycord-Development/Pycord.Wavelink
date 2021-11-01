@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import pycord.wavelink
+import pycord.wavelink as wavelink
 from discord.ext import commands
 
 
