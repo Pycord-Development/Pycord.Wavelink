@@ -179,7 +179,10 @@ class SearchableTrack(Track, Searchable):
         if node is MISSING:
             node = NodePool.get_node()
 
-        tracks = await node.get_tracks(cls, f"{cls._search_type}:{query}")
+        if cls._search_type == "":
+            tracks = await node.get_tracks(cls, f"{query}")
+        else:
+            tracks = await node.get_tracks(cls, f"{cls._search_type}:{query}")
 
         if return_first:
             return tracks[0]
@@ -223,6 +226,12 @@ class SoundCloudTrack(SearchableTrack):
     """A track created using a search to SoundCloud."""
 
     _search_type: ClassVar[str] = "scsearch"
+
+
+class PlainTrack(SearchableTrack):
+    """A track created using a plain url"""
+
+    _search_type: ClassVar[str] = ""
 
 
 class YouTubePlaylist(Playlist):
