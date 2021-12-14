@@ -1,20 +1,22 @@
 .. currentmodule:: pycord.wavelink
 
+API Reference
+=============
 
 Backoff
-=======
+-------
 
 .. autoclass:: Backoff
     :members:
 
 Player
-======
+------
 
 .. autoclass:: Player
     :members:
 
 Pool
-====
+----
 
 .. autoclass:: Node
     :members:
@@ -23,7 +25,7 @@ Pool
     :members:
 
 Queue
-=====
+-----
 
 .. autoclass:: Queue
     :members:
@@ -32,7 +34,7 @@ Queue
     :members:
 
 Stats
-=====
+-----
 
 .. autoclass:: Penalty
     :members:
@@ -41,7 +43,7 @@ Stats
     :members:
 
 Tracks
-======
+------
 
 .. autoclass:: Track
     :members:
@@ -65,7 +67,7 @@ Tracks
     :members:
 
 Errors
-======
+------
 
 .. autoclass:: WavelinkError
     
