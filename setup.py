@@ -40,7 +40,7 @@ setup(
     url="https://github.com/Pycord-Development/Pycord.Wavelink",
     version=version,
     packages=find_packages(where="src"),
-    # package_dir=
+    package_dir={"": "src"},
     license="MIT",
     description="A robust and powerful Lavalink wrapper for pycord.",
     long_description=readme,
