@@ -1,4 +1,5 @@
-"""MIT License
+"""
+MIT License
 
 Copyright (c) 2019-2021 PythonistaGuild
 Copyright (c) 2021-present Pycord Development

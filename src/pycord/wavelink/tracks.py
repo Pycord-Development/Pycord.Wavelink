@@ -1,4 +1,5 @@
-"""MIT License
+"""
+MIT License
 
 Copyright (c) 2019-2021 PythonistaGuild
 Copyright (c) 2021-present Pycord Development
@@ -52,7 +53,7 @@ __all__ = (
     "YouTubeMusicTrack",
     "SoundCloudTrack",
     "YouTubePlaylist",
-    "PartialTrack"
+    "PartialTrack",
 )
 
 ST = TypeVar("ST", bound="SearchableTrack")
@@ -106,24 +107,24 @@ class SearchableTrack(Track, Searchable):
     @overload
     @classmethod
     async def search(
-            cls: Type[ST],
-            query: str,
-            *,
-            node: Node = ...,
-            type: spotify.SpotifySearchType = ...,
-            return_first: Literal[False] = ...,
+        cls: Type[ST],
+        query: str,
+        *,
+        node: Node = ...,
+        type: spotify.SpotifySearchType = ...,
+        return_first: Literal[False] = ...,
     ) -> List[ST]:
         ...
 
     @overload
     @classmethod
     async def search(
-            cls: Type[ST],
-            query: str,
-            *,
-            node: Node = ...,
-            type: spotify.SpotifySearchType = ...,
-            return_first: Literal[True] = ...,
+        cls: Type[ST],
+        query: str,
+        *,
+        node: Node = ...,
+        type: spotify.SpotifySearchType = ...,
+        return_first: Literal[True] = ...,
     ) -> Optional[ST]:
         ...
 
@@ -152,11 +153,11 @@ class SearchableTrack(Track, Searchable):
     @classmethod
     async def search(
         cls: Type[ST],
-            query: str,
-            *,
-            type: spotify.SpotifySearchType = None,
-            node: Node = MISSING,
-            return_first: bool = False
+        query: str,
+        *,
+        type: spotify.SpotifySearchType = None,
+        node: Node = MISSING,
+        return_first: bool = False,
     ) -> Union[Optional[ST], List[ST]]:
         """|coro|
 
@@ -280,18 +281,22 @@ class PartialTrack(Searchable, Playable):
         Full track information will be missing until it has been searched.
     """
 
-    def __init__(self,
-                 *,
-                 query: str,
-                 node: Optional[Node] = MISSING,
-                 cls: Optional[SearchableTrack] = YouTubeTrack):
+    def __init__(
+        self,
+        *,
+        query: str,
+        node: Optional[Node] = MISSING,
+        cls: Optional[SearchableTrack] = YouTubeTrack,
+    ):
         self.query = query
         self.title = query
         self._node = node
         self._cls = cls
 
         if not issubclass(cls, SearchableTrack):
-            raise TypeError(f"cls parameter must be of type {SearchableTrack!r} not {cls!r}")
+            raise TypeError(
+                f"cls parameter must be of type {SearchableTrack!r} not {cls!r}"
+            )
 
     async def _search(self):
         node = self._node

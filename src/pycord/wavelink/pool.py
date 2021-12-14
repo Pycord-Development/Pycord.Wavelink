@@ -1,4 +1,5 @@
-"""MIT License
+"""
+MIT License
 
 Copyright (c) 2019-2021 PythonistaGuild
 Copyright (c) 2021-present Pycord Development
@@ -52,8 +53,8 @@ from .utils import MISSING
 from .websocket import Websocket
 
 if TYPE_CHECKING:
-    from .player import Player
     from .ext import spotify
+    from .player import Player
 
 
 __all__ = (

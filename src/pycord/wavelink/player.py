@@ -1,4 +1,5 @@
-"""MIT License
+"""
+MIT License
 
 Copyright (c) 2019-2021 PythonistaGuild
 Copyright (c) 2021-present Pycord Development
@@ -24,7 +25,7 @@ SOFTWARE.
 
 import datetime
 import logging
-from typing import Any, Dict, Union, Optional
+from typing import Any, Dict, Optional, Union
 
 import discord
 from discord.channel import VoiceChannel
@@ -34,7 +35,6 @@ from .pool import Node, NodePool
 from .queue import WaitQueue
 from .tracks import PartialTrack
 from .utils import MISSING
-
 
 __all__ = ("Player",)
 

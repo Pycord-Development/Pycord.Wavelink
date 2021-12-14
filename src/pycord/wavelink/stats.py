@@ -1,4 +1,5 @@
-"""MIT License
+"""
+MIT License
 
 Copyright (c) 2018 Luke & William
 Copyright (c) 2021-present Pycord Development
@@ -20,8 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 from __future__ import annotations
-from typing import Any, Dict, TYPE_CHECKING
 
+from typing import TYPE_CHECKING, Any, Dict
 
 if TYPE_CHECKING:
     from .pool import Node
@@ -34,6 +35,7 @@ __all__ = (
 
 
 class Penalty:
+    # TODO: Document
     def __init__(self, stats: Stats):
         self.player_penalty: int = stats.playing_players
         self.cpu_penalty: float = 1.05 ** (100 * stats.system_load) * 10 - 10
@@ -60,6 +62,7 @@ class Penalty:
 
 
 class Stats:
+    # TODO: Document
     def __init__(self, node: Node, data: dict[str, Any]):
         self._node: Node = node
 

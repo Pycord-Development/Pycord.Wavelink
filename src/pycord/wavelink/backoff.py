@@ -1,5 +1,5 @@
 """
-The MIT License (MIT)
+MIT License
 
 Copyright (c) 2021 PythonistaGuild, EvieePy
 Copyright (c) 2021-present Pycord Development
@@ -40,7 +40,13 @@ class Backoff:
         The amount of times to backoff before resetting. Defaults to 5. If set to None, backoff will run indefinitely.
     """
 
-    def __init__(self, *, base: int = 1, maximum_time: float = 30.0, maximum_tries: Optional[int] = 5):
+    def __init__(
+        self,
+        *,
+        base: int = 1,
+        maximum_time: float = 30.0,
+        maximum_tries: Optional[int] = 5
+    ):
         self._base = base
         self._maximum_time = maximum_time
         self._maximum_tries = maximum_tries

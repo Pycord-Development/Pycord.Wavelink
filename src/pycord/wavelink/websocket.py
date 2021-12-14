@@ -1,4 +1,5 @@
-"""MIT License
+"""
+MIT License
 
 Copyright (c) 2019-2021 PythonistaGuild
 Copyright (c) 2021-present Pycord Development
@@ -25,11 +26,12 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from typing import Any, Dict, TYPE_CHECKING, Tuple, Optional
+from typing import TYPE_CHECKING, Any, Dict, Optional, Tuple
 
 import aiohttp
 
 import pycord.wavelink
+
 from .utils import MISSING
 
 if TYPE_CHECKING:
@@ -41,6 +43,7 @@ logger: logging.Logger = logging.getLogger(__name__)
 
 
 class Websocket:
+    # TODO: Document
     def __init__(self, *, node: Node, session: aiohttp.ClientSession = MISSING):
         self.node: Node = node
 
@@ -117,8 +120,10 @@ class Websocket:
                 if msg.data == 1011:
                     # Lavalink encountered an internal error which can not be fixed...
                     # Consider updating Lavalink...
-                    logger.error('Internal Lavalink Error encountered. Terminating WaveLink without retries.'
-                                 'Consider updating your Lavalink Server.')
+                    logger.error(
+                        "Internal Lavalink Error encountered. Terminating WaveLink without retries."
+                        "Consider updating your Lavalink Server."
+                    )
 
                     self.listener.cancel()
                     return
@@ -135,17 +140,18 @@ class Websocket:
             return
 
         try:
-            player = self.node.get_player(self.node.bot.get_guild(
-                int(data["guildId"])))  # type: ignore
+            player = self.node.get_player(
+                self.node.bot.get_guild(int(data["guildId"]))
+            )  # type: ignore
         except KeyError:
             return
 
         if player is None:
             return
 
-        if op == 'event':
-            event, payload = await self._get_event_payload(data['type'], data)
-            logger.debug(f'op: event:: {data}')
+        if op == "event":
+            event, payload = await self._get_event_payload(data["type"], data)
+            logger.debug(f"op: event:: {data}")
 
             self.dispatch(event, player, **payload)
 
@@ -168,8 +174,10 @@ class Websocket:
             payload["code"] = data.get("code")
 
         if name.startswith("Track"):
-            base64_ = data.get('track')
-            track = await self.node.build_track(cls=pycord.wavelink.Track, identifier=base64_)
+            base64_ = data.get("track")
+            track = await self.node.build_track(
+                cls=pycord.wavelink.Track, identifier=base64_
+            )
 
             payload["track"] = track
 

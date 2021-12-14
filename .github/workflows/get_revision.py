@@ -5,8 +5,8 @@ def getrev() -> str:
     resp = requests.get("https://pypi.org/pypi/pycord.wavelink/json")
     data = sorted(resp.json()["releases"])
 
-    first = max(data).split('b')[0]
-    second = sorted([int(p.split('b')[1]) for p in data if 'b' in p], reverse=True)[0]
+    first = max(data).split("b")[0]
+    second = sorted([int(p.split("b")[1]) for p in data if "b" in p], reverse=True)[0]
 
     final = f"{first}b{int(second) + 1}"
 

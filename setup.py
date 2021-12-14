@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 The MIT License (MIT)
 
@@ -25,8 +23,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
-import os
-from setuptools import setup
+from setuptools import find_packages, setup
 
 with open("requirements.txt") as f:
     requirements = f.read().splitlines()
@@ -42,7 +39,8 @@ setup(
     author="Pycord Development",
     url="https://github.com/Pycord-Development/Pycord.Wavelink",
     version=version,
-    packages=["pycord.wavelink", "pycord.wavelink.ext.spotify", "pycord.wavelink.types"],
+    packages=find_packages(where="src"),
+    # package_dir=
     license="MIT",
     description="A robust and powerful Lavalink wrapper for pycord.",
     long_description=readme,
@@ -55,6 +53,7 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Topic :: Internet",
         "Topic :: Software Development :: Libraries",
         "Topic :: Software Development :: Libraries :: Python Modules",
