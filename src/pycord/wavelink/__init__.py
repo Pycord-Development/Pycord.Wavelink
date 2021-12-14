@@ -2,8 +2,6 @@
 pycord.wavelink
 ~~~~~~~~~~~~~~~
 Maintained wavelink fork for pycord
-
-
 """
 
 __title__ = "pycord.wavelink"
