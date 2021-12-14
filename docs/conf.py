@@ -73,6 +73,15 @@ html_theme_options = {
 pygments_style = 'monokai'
 default_dark_mode = True
 
+rst_prolog = '''
+.. |coro| replace:: This function is a |coroutine_link|_.\n\n
+.. |maybecoro| replace:: This function *could be a* |coroutine_link|_.
+.. |coroutine_link| replace:: *coroutine*
+.. _coroutine_link: https://docs.python.org/3/library/asyncio-task.html#coroutine
+.. |default| raw:: html
+    <div class="default-value-section"> <span class="default-value-label">Default:</span>
+'''
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
