@@ -1,4 +1,5 @@
-"""MIT License
+"""
+MIT License
 
 Copyright (c) 2019-2021 PythonistaGuild
 Copyright (c) 2021-present Pycord Development
@@ -25,12 +26,12 @@ from __future__ import annotations
 
 import abc
 from typing import (
+    TYPE_CHECKING,
     Any,
     Dict,
     List,
     Literal,
     Optional,
-    TYPE_CHECKING,
     Type,
     TypeVar,
     Union,

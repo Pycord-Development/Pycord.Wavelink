@@ -1,4 +1,5 @@
-"""MIT License
+"""
+MIT License
 
 Copyright (c) 2019-2021 PythonistaGuild
 Copyright (c) 2021-present Pycord Development
@@ -21,32 +22,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+from typing import Any
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
-
-if TYPE_CHECKING:
-    from enum import Enum
-else:
-    from discord import Enum
-
-__all__ = (
-    "ErrorSeverity",
-    "LoadType",
-)
+__all__ = ("MISSING",)
 
 
-class ErrorSeverity(Enum):
-    common = "COMMON"
-    suspicious = "SUSPICIOUS"
-    fault = "FAULT"
+class _MissingSentinel:
+    def __repr__(self) -> str:
+        return "MISSING"
+
+    def __bool__(self) -> bool:
+        return False
 
 
-class LoadType(Enum):
-    track_loaded = "TRACK_LOADED"
-    playlist_loaded = "PLAYLIST_LOADED"
-    search_result = "SEARCH_RESULT"
-    no_matches = "NO_MATCHES"
-    load_failed = "LOAD_FAILED"
+MISSING: Any = _MissingSentinel()

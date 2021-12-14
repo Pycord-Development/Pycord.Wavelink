@@ -1,4 +1,5 @@
-"""MIT License
+"""
+MIT License
 
 Copyright (c) 2019-2021 PythonistaGuild
 Copyright (c) 2021-present Pycord Development
@@ -22,19 +23,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-__title__ = "pycord.wavelink"
-__author__ = "Pycord Development"
-__license__ = "MIT"
-__copyright__ = "Copyright 2019-2021 (c) Pythonista, EvieePy | Copyright 2021-present (c) Pycord Development"
-__version__ = "{{__VERSION__}}"
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from enum import Enum
+else:
+    from discord import Enum
+
+__all__ = (
+    "ErrorSeverity",
+    "LoadType",
+)
 
 
-from .backoff import Backoff
-from .enums import *
-from .errors import *
-from .player import *
-from .pool import *
-from .stats import Stats
-from .tracks import *
-from .queue import *
-from . import abc as abc
+class ErrorSeverity(Enum):
+    common = "COMMON"
+    suspicious = "SUSPICIOUS"
+    fault = "FAULT"
+
+
+class LoadType(Enum):
+    track_loaded = "TRACK_LOADED"
+    playlist_loaded = "PLAYLIST_LOADED"
+    search_result = "SEARCH_RESULT"
+    no_matches = "NO_MATCHES"
+    load_failed = "LOAD_FAILED"

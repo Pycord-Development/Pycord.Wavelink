@@ -22,17 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import pycord.wavelink as wavelink
 from discord.ext import commands
+
+import pycord.wavelink as wavelink
 
 
 class Bot(commands.Bot):
-
     def __init__(self):
-        super().__init__(command_prefix='>?')
+        super().__init__(command_prefix=">?")
 
     async def on_ready(self):
-        print('Bot is ready!')
+        print("Bot is ready!")
 
 
 class Music(commands.Cog):
@@ -47,15 +47,14 @@ class Music(commands.Cog):
         """Connect to our Lavalink nodes."""
         await self.bot.wait_until_ready()
 
-        await wavelink.NodePool.create_node(bot=self.bot,
-                                            host='0.0.0.0',
-                                            port=2333,
-                                            password='YOUR_LAVALINK_PASSWORD')
+        await wavelink.NodePool.create_node(
+            bot=self.bot, host="0.0.0.0", port=2333, password="YOUR_LAVALINK_PASSWORD"
+        )
 
     @commands.Cog.listener()
     async def on_wavelink_node_ready(self, node: wavelink.Node):
         """Event fired when a node has finished connecting."""
-        print(f'Node: <{node.identifier}> is ready!')
+        print(f"Node: <{node.identifier}> is ready!")
 
     @commands.command()
     async def play(self, ctx: commands.Context, *, search: wavelink.YouTubeTrack):
@@ -64,7 +63,9 @@ class Music(commands.Cog):
         If not connected, connect to our voice channel.
         """
         if not ctx.voice_client:
-            vc: wavelink.Player = await ctx.author.voice.channel.connect(cls=wavelink.Player)
+            vc: wavelink.Player = await ctx.author.voice.channel.connect(
+                cls=wavelink.Player
+            )
         else:
             vc: wavelink.Player = ctx.voice_client
 
@@ -73,4 +74,4 @@ class Music(commands.Cog):
 
 bot = Bot()
 bot.add_cog(Music(bot))
-bot.run('YOUR_BOT_TOKEN')
+bot.run("YOUR_BOT_TOKEN")
