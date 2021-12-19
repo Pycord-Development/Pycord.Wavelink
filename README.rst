@@ -18,7 +18,7 @@ For support using Pycord.WaveLink, please join the official `support server
 
 |Discord|
 
-.. |Discord| image:: https://img.shields.io/discord/881207955029110855?color=%237289DA&label=Pycord&logo=discord&logoColor=white
+.. |Discord| image:: https://discord.com/api/guilds/881207955029110855/embed.png?style=banner2
    :target: https://discord.gg/pycord
 
 Installation
