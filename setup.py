@@ -23,7 +23,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
-from setuptools import find_packages, setup
+from setuptools import setup
 
 with open("requirements.txt") as f:
     requirements = f.read().splitlines()
@@ -39,7 +39,7 @@ setup(
     author="Pycord Development",
     url="https://github.com/Pycord-Development/Pycord.Wavelink",
     version=version,
-    packages=find_packages(where="src"),
+    packages=["pycord.wavelink", "pycord.wavelink.ext.spotify", "pycord.wavelink.types"],
     package_dir={"": "src"},
     license="MIT",
     description="A robust and powerful Lavalink wrapper for pycord.",
