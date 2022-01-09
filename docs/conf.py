@@ -41,6 +41,7 @@ with open('../src/pycord/wavelink/__init__.py') as f:
 # The full version, including alpha/beta/rc tags.
 release = version
 
+branch = 'main' if version.endswith('a') else 'v' + version
 
 # -- General configuration ---------------------------------------------------
 
