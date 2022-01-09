@@ -79,7 +79,7 @@ class Node:
         The pycord Bot object.
 
 
-    .. warning::
+    .. info::
         This class should not be created manually. Please use :meth:`NodePool.create_node()` instead.
     """
 
