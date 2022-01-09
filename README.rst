@@ -24,7 +24,7 @@ For support using Pycord.WaveLink, please join the official `support server
 Documentation
 ---------------------------
 
-The documention can be found _`here<https://wavelink-docs.pycord.dev/en/latest/>`_
+The documention can be found `here <https://wavelink-docs.pycord.dev/en/latest/>`_!
 
 Installation
 ---------------------------
