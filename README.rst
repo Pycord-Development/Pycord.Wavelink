@@ -21,6 +21,11 @@ For support using Pycord.WaveLink, please join the official `support server
 .. |Discord| image:: https://discord.com/api/guilds/881207955029110855/embed.png?style=banner2
    :target: https://discord.gg/pycord
 
+Documentation
+---------------------------
+
+The documention can be found _`here<https://wavelink-docs.pycord.dev/en/latest/>`_
+
 Installation
 ---------------------------
 The following commands are currently the valid ways of installing WaveLink.
