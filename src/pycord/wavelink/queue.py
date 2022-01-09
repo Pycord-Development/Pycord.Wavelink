@@ -56,7 +56,7 @@ QT = TypeVar("QT", bound=QueueBase)
 class Queue(Iterable[abc.Playable], Generic[QT]):
     """Basic Queue implementation for Playable objects.
 
-    .. warning::
+    .. info::
         This Queue class only accepts Playable objects. E.g YouTubeTrack, SoundCloudTrack.
 
     Parameters
