@@ -1,2 +1,2 @@
-py-cord>=2.0.0a
+https://github.com/Pycord-Development/Pycord.Wavelink/archive/main.tar.gz
 aiohttp>=3.6.0,<4.0.0
