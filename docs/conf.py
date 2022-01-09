@@ -133,7 +133,7 @@ html_js_files = [
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'pycordwavedoc'
-
+html_favicon = './assets/pycord.ico'
 latex_documents = [
   ('index', 'pycord-wavelink.tex', 'Pycord.Wavelink Documentation',
    'Pycord Development', 'manual'),
