@@ -13,5 +13,7 @@ python:
   version: 3.8
   install:
     - requirements: req-rtd.txt
+    - method: pip
+      path: .
       extra_requirements:
         - docs
