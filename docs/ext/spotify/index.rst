@@ -1,4 +1,4 @@
-``ext.spotify`` - Extension to make working with spotify easier
+``pycord.wavelink.ext.spotify`` - Extension to make working with spotify easier
 ================================================================================
 
 .. currentmodule:: pycord.wavelink.ext.spotify
