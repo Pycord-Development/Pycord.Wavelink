@@ -275,7 +275,7 @@ class PartialTrack(Searchable, Playable):
         An optional Non-Partial Track object to use when searching.
 
 
-    .. warning::
+    .. info::
 
         This object will only search for the given query at playtime.
         Full track information will be missing until it has been searched.
