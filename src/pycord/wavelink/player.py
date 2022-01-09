@@ -63,7 +63,7 @@ class Player(discord.VoiceProtocol):
                 voice_client = await channel.connect(cls=pycord.wavelink.Player)
 
 
-    .. warning::
+    .. note::
         This class should not be created manually but can be subclassed to add additional functionality.
         You should instead use :meth:`discord.VoiceChannel.connect()` and pass the player object to the cls kwarg.
     """
