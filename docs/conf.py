@@ -17,6 +17,7 @@
 #
 import os
 import sys
+import re
 sys.path.insert(0, os.path.abspath("../src"))
 sys.path.append(os.path.abspath('extensions'))
 
