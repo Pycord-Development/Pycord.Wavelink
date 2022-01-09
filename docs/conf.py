@@ -111,9 +111,3 @@ texinfo_documents = [
    'Pycord Development', 'pycord.wavelink', 'One line description of project.',
    'Miscellaneous'),
 ]
-
-def setup(app):
-  if app.config.language == 'ja':
-    app.config.intersphinx_mapping['py'] = ('https://docs.python.org/ja/3', None)
-    app.config.html_context['discord_invite'] = 'https://pycord.dev/discord'
-    app.config.resource_links['discord'] = 'https://pycord.dev/discord'
