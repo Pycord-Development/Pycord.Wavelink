@@ -40,6 +40,7 @@ extensions = [
     'resourcelinks',
     'nitpick_file_ignorer',
 ]
+
 autodoc_member_order = 'bysource'
 autodoc_typehints = 'none'
 
@@ -52,6 +53,9 @@ html_logo = "./assets/pycord.png"
 html_experimental_html5_writer = True
 html_context = {
   'discord_invite': 'https://pycord.dev/discord',
+  'pycord_wavelink_extensions': [
+  ('pycord.wavelink.ext.spotify', 'ext/spotify'),
+],
 }
 
 resource_links = {
