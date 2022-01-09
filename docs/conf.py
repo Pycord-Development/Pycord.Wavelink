@@ -24,7 +24,8 @@ extlinks = {
 intersphinx_mapping = {
   'py': ('https://docs.python.org/3', None),
   'aio': ('https://docs.aiohttp.org/en/stable/', None),
-  'req': ('https://docs.python-requests.org/en/latest/', None)
+  'req': ('https://docs.python-requests.org/en/latest/', None),
+  'discord': ('https://docs.pycord.dev/en/master/', None)
 }
 
 extensions = [
