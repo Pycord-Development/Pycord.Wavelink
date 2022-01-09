@@ -1,2 +1,2 @@
-py-cord @ git+https://github.com/pycord-development/pycord.git@master
-aiohttp>=3.6.0,<4.0.0
+ py-cord>=2.0.0a
+ aiohttp>=3.6.0,<4.0.0
