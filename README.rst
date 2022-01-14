@@ -51,8 +51,7 @@ A quick and easy bot example:
 
 .. code:: py
 
-    from discord.ext import wavelink
-    from discord.ext import commands
+    from discord.ext import commands, wavelink
 
     class Bot(commands.Bot):
         def __init__(self):
