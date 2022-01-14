@@ -50,8 +50,8 @@ Getting Started
 A quick and easy bot example:
 
 .. code:: py
-    
-    import pycord.wavelink as wavelink
+
+    from discord.ext import wavelink
     from discord.ext import commands
 
     class Bot(commands.Bot):

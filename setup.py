@@ -83,7 +83,7 @@ setup(
     author="Pycord Development",
     url="https://github.com/Pycord-Development/Pycord.Wavelink",
     version=version,
-    packages=["pycord.wavelink", "pycord.wavelink.ext.spotify", "pycord.wavelink.types"],
+    packages=["discord.ext.wavelink", "discord.ext.wavelink.ext.spotify", "discord.ext.wavelink.types"],
     package_dir={"": "src"},
     license="MIT",
     description="A robust and powerful Lavalink wrapper for pycord.",

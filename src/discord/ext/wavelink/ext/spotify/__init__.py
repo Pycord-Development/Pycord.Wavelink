@@ -32,9 +32,9 @@ from typing import List, Optional, Type, TypeVar, Union
 import aiohttp
 from discord.ext import commands
 
-import pycord.wavelink
-from pycord.wavelink import Node, NodePool, PartialTrack, YouTubeTrack
-from pycord.wavelink.utils import MISSING
+from discord.ext import wavelink
+from discord.ext.wavelink import Node, NodePool, PartialTrack, YouTubeTrack
+from discord.ext.wavelink.utils import MISSING
 
 __all__ = (
     "SpotifySearchType",
@@ -162,7 +162,7 @@ class SpotifyAsyncIterator:
             )
         else:
             track = (
-                await pycord.wavelink.YouTubeTrack.search(
+                await wavelink.YouTubeTrack.search(
                     query=f'{track["name"]} -' f' {track["artists"][0]["name"]}'
                 )
             )[0]
