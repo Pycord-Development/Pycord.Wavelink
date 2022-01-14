@@ -10,7 +10,7 @@ copyright = "2021, Pycord Development"
 author = "Pycord Development"
 
 version = ''
-with open('../src/pycord/wavelink/__init__.py') as f:
+with open('../src/discord/ext/wavelink/__init__.py') as f:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
 
 release = version

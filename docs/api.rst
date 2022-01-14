@@ -1,4 +1,4 @@
-.. currentmodule:: pycord.wavelink
+.. currentmodule:: discord.ext.wavelink
 
 API Reference
 =============

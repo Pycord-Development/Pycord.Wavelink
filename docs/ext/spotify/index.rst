@@ -1,7 +1,7 @@
-``pycord.wavelink.ext.spotify`` - Extension to make working with spotify easier
+``discord.ext.wavelink.ext.spotify`` - Extension to make working with spotify easier
 ================================================================================
 
-.. currentmodule:: pycord.wavelink.ext.spotify
+.. currentmodule:: discord.ext.wavelink.ext.spotify
 
 .. autoclass:: SpotifySearchType
     :members:
