@@ -73,7 +73,7 @@ def decode_url(url: str) -> Optional[dict]:
 
     .. code:: python3
 
-        from pycord.wavelink.ext import spotify
+        from discord.ext.wavelink.ext import spotify
 
         ...
 

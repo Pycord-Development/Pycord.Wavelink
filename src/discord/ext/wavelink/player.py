@@ -60,7 +60,7 @@ class Player(discord.VoiceProtocol):
             @commands.command()
             async def connect(self, channel: discord.VoiceChannel):
 
-                voice_client = await channel.connect(cls=pycord.wavelink.Player)
+                voice_client = await channel.connect(cls=discord.ext.wavelink.Player)
 
 
     .. warning::
@@ -216,7 +216,7 @@ class Player(discord.VoiceProtocol):
 
         Returns
         -------
-        :class:`pycord.wavelink.abc.Playable`
+        :class:`discord.ext.wavelink.abc.Playable`
             The track that is now playing.
         """
         if replace or not self.is_playing():

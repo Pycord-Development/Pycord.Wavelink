@@ -1,5 +1,5 @@
 """
-pycord.wavelink
+discord.ext.wavelink
 ~~~~~~~~~~~~~~~
 Maintained wavelink fork for pycord
 """

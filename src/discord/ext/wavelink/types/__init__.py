@@ -1,5 +1,5 @@
 """
-pycord.wavelink.types
+discord.ext.wavelink.types
 ~~~~~~~~~~~~~~~~~~~~~
 Wavelink Types
 
