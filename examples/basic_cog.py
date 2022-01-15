@@ -22,9 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands
-
-import pycord.wavelink as wavelink
+from discord.ext import commands, wavelink
 
 
 class Bot(commands.Bot):
