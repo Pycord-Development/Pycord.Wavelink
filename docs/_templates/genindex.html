@@ -9,12 +9,12 @@
     // this is pretty finicky but it should work.
     for(let el of elements) {
       let key = el.getAttribute('href').split('#', 2)[1]
-      if(!key.startsWith('pycord.wavelink.')) {
+      if(!key.startsWith('discord.ext.wavelink.')) {
         continue;
       }
 
-      if(key.startsWith('pycord.wavelink.ext.')) {
-        key = key.substr(20); // pycord.wavelink.ext.
+      if(key.startsWith('discord.ext.wavelink.ext.')) {
+        key = key.substr(20); // discord.ext.wavelink.ext.
       }
 
       if(el.textContent.indexOf('()') !== -1) {
