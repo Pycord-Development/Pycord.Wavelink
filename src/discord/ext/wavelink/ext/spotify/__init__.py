@@ -254,7 +254,7 @@ class SpotifyClient:
             data = await resp.json()
 
             if data["type"] == "track":
-                return await pycord.wavelink.YouTubeTrack.search(
+                return await wavelink.YouTubeTrack.search(
                     f'{data["name"]} - {data["artists"][0]["name"]}'
                 )
 
@@ -262,7 +262,7 @@ class SpotifyClient:
                 tracks = data["tracks"]["items"]
                 return [
                     (
-                        await pycord.wavelink.YouTubeTrack.search(
+                        await wavelink.YouTubeTrack.search(
                             f'{t["name"]} - {t["artists"][0]["name"]}'
                         )
                     )[0]
@@ -277,7 +277,7 @@ class SpotifyClient:
                     t = track["track"]
                     ret.append(
                         (
-                            await pycord.wavelink.YouTubeTrack.search(
+                            await wavelink.YouTubeTrack.search(
                                 f'{t["name"]} - {t["artists"][0]["name"]}'
                             )
                         )[0]
