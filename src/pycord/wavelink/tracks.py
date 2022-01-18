@@ -52,6 +52,7 @@ __all__ = (
     "YouTubeTrack",
     "YouTubeMusicTrack",
     "SoundCloudTrack",
+    "PlainTrack",
     "YouTubePlaylist",
     "PartialTrack",
 )
