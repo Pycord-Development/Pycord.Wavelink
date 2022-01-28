@@ -32,9 +32,9 @@ from typing import List, Optional, Type, TypeVar, Union
 import aiohttp
 from discord.ext import commands
 
-import pycord.wavelink
-from pycord.wavelink import Node, NodePool, PartialTrack, YouTubeMusicTrack
-from pycord.wavelink.utils import MISSING
+from discord.ext import wavelink
+from discord.ext.wavelink import Node, NodePool, PartialTrack, YouTubeMusicTrack
+from discord.ext.wavelink.utils import MISSING
 
 __all__ = (
     "SpotifySearchType",
@@ -73,7 +73,7 @@ def decode_url(url: str) -> Optional[dict]:
 
     .. code:: python3
 
-        from pycord.wavelink.ext import spotify
+        from discord.ext.wavelink.ext import spotify
 
         ...
 
@@ -162,7 +162,7 @@ class SpotifyAsyncIterator:
             )
         else:
             track = (
-                await pycord.wavelink.YouTubeMusicTrack.search(
+                await wavelink.YouTubeMusicTrack.search(
                     query=f'{track["name"]} -' f' {track["artists"][0]["name"]}'
                 )
             )[0]
@@ -254,7 +254,7 @@ class SpotifyClient:
             data = await resp.json()
 
             if data["type"] == "track":
-                return await pycord.wavelink.YouTubeMusicTrack.search(
+                return await wavelink.YouTubeMusicTrack.search(
                     f'{data["name"]} - {data["artists"][0]["name"]}'
                 )
 
@@ -262,7 +262,7 @@ class SpotifyClient:
                 tracks = data["tracks"]["items"]
                 return [
                     (
-                        await pycord.wavelink.YouTubeMusicTrack.search(
+                        await wavelink.YouTubeMusicTrack.search(
                             f'{t["name"]} - {t["artists"][0]["name"]}'
                         )
                     )[0]
@@ -277,7 +277,7 @@ class SpotifyClient:
                     t = track["track"]
                     ret.append(
                         (
-                            await pycord.wavelink.YouTubeMusicTrack.search(
+                            await wavelink.YouTubeMusicTrack.search(
                                 f'{t["name"]} - {t["artists"][0]["name"]}'
                             )
                         )[0]
@@ -309,7 +309,7 @@ class SpotifyClient:
 
 
 class SpotifyTrack(YouTubeMusicTrack):
-    """A track retrieved via YouTube Music with a Spotify URL/ID."""
+    """A track retrieved via YouTube with a Spotify URL/ID."""
 
     @classmethod
     async def search(
