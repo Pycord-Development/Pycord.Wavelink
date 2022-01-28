@@ -52,7 +52,6 @@ __all__ = (
     "YouTubeTrack",
     "YouTubeMusicTrack",
     "SoundCloudTrack",
-    "PlainTrack",
     "YouTubePlaylist",
     "PartialTrack",
 )
@@ -219,7 +218,7 @@ class YouTubeTrack(SearchableTrack):
     thumb = thumbnail
 
 
-class YouTubeMusicTrack(YouTubeTrack):
+class YouTubeMusicTrack(SearchableTrack):
     """A track created using a search to YouTube Music."""
 
     _search_type: ClassVar[str] = "ytmsearch"

@@ -153,7 +153,6 @@ class Player(discord.VoiceProtocol):
         channel_id = data["channel_id"]
         if not channel_id:  # We're disconnecting
             self._voice_state.clear()
-            await self.disconnect()
             return
 
         self.channel = self.guild.get_channel(int(channel_id))  # type: ignore
