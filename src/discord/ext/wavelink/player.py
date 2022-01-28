@@ -173,7 +173,7 @@ class Player(discord.VoiceProtocol):
 
         logger.info(f"Connected to voice channel:: {self.channel.id}")
 
-    async def disconnect(self, *, force: bool) -> None:
+    async def disconnect(self) -> None:
         try:
             logger.info(f"Disconnected from voice channel:: {self.channel.id}")
 

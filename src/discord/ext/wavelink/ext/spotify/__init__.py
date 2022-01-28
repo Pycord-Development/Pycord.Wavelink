@@ -33,7 +33,7 @@ import aiohttp
 from discord.ext import commands
 
 from discord.ext import wavelink
-from discord.ext.wavelink import Node, NodePool, PartialTrack, YouTubeTrack
+from discord.ext.wavelink import Node, NodePool, PartialTrack, YouTubeMusicTrack
 from discord.ext.wavelink.utils import MISSING
 
 __all__ = (
@@ -162,7 +162,7 @@ class SpotifyAsyncIterator:
             )
         else:
             track = (
-                await wavelink.YouTubeTrack.search(
+                await wavelink.YouTubeMusicTrack.search(
                     query=f'{track["name"]} -' f' {track["artists"][0]["name"]}'
                 )
             )[0]
@@ -233,7 +233,7 @@ class SpotifyClient:
         query: str,
         type: SpotifySearchType = SpotifySearchType.track,
         iterator: bool = False,
-    ) -> Optional[List[YouTubeTrack]]:
+    ) -> Optional[List[YouTubeMusicTrack]]:
 
         if not self._bearer_token or time.time() >= self._expiry:
             await self._get_bearer_token()
@@ -254,7 +254,7 @@ class SpotifyClient:
             data = await resp.json()
 
             if data["type"] == "track":
-                return await wavelink.YouTubeTrack.search(
+                return await wavelink.YouTubeMusicTrack.search(
                     f'{data["name"]} - {data["artists"][0]["name"]}'
                 )
 
@@ -262,7 +262,7 @@ class SpotifyClient:
                 tracks = data["tracks"]["items"]
                 return [
                     (
-                        await wavelink.YouTubeTrack.search(
+                        await wavelink.YouTubeMusicTrack.search(
                             f'{t["name"]} - {t["artists"][0]["name"]}'
                         )
                     )[0]
@@ -277,7 +277,7 @@ class SpotifyClient:
                     t = track["track"]
                     ret.append(
                         (
-                            await wavelink.YouTubeTrack.search(
+                            await wavelink.YouTubeMusicTrack.search(
                                 f'{t["name"]} - {t["artists"][0]["name"]}'
                             )
                         )[0]
@@ -308,7 +308,7 @@ class SpotifyClient:
             return data["tracks"]["items"]
 
 
-class SpotifyTrack(YouTubeTrack):
+class SpotifyTrack(YouTubeMusicTrack):
     """A track retrieved via YouTube with a Spotify URL/ID."""
 
     @classmethod
