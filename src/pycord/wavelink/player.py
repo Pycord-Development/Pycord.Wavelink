@@ -168,7 +168,7 @@ class Player(discord.VoiceProtocol):
             )
 
     async def connect(self, *, timeout: float, reconnect: bool) -> None:
-        await self.guild.change_voice_state(channel=self.channel)
+        await self.guild.change_voice_state(channel=self.channel, self_deaf=True)
         self._connected = True
 
         logger.info(f"Connected to voice channel:: {self.channel.id}")
@@ -193,7 +193,7 @@ class Player(discord.VoiceProtocol):
         channel: :class:`discord.VoiceChannel`
             The channel to move to. Must be a voice channel.
         """
-        await self.guild.change_voice_state(channel=channel)
+        await self.guild.change_voice_state(channel=channel, self_deaf=True)
         logger.info(f"Moving to voice channel:: {channel.id}")
 
     async def play(
